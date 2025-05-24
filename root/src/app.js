@@ -58,20 +58,16 @@ async function buildApp() {
     app.register(require('./plugins/jwt'));
 
     app.setErrorHandler((error, request, reply) => {
-        // Selalu log error lengkap di sisi server, terlepas dari environment.
         request.log.error(error);
-
         const isDevelopment = process.env.NODE_ENV === 'development';
-
-        // 1. Menangani error validasi dari Fastify
         if (error.validation) {
             const responsePayload = {
                 error: 'Validation failed',
-                message: "Input yang diberikan tidak valid.", // Pesan umum
-                details: error.validation, // Detail validasi dari Fastify
+                message: "Input invalid.",
+                details: error.validation,
             };
             if (isDevelopment) {
-                responsePayload.stack = error.stack; // Tambahkan stack trace di development
+                responsePayload.stack = error.stack;
             }
             return reply.code(400).send(responsePayload);
         }
@@ -79,11 +75,11 @@ async function buildApp() {
         // 2. Menangani error yang sudah memiliki statusCode (error terstruktur)
         if (error.statusCode && error.statusCode >= 400 && error.statusCode < 600) {
             const responsePayload = {
-                error: error.name || 'Error', // Gunakan nama error jika ada
-                message: error.message,       // Pesan error spesifik
+                error: error.name || 'Error',
+                message: error.message,
             };
             if (isDevelopment) {
-                responsePayload.stack = error.stack; // Tambahkan stack trace di development
+                responsePayload.stack = error.stack;
             }
             return reply.code(error.statusCode).send(responsePayload);
         }
