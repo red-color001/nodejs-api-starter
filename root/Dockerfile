@@ -5,12 +5,10 @@ WORKDIR /usr/src/app
 ADD *.js .
 COPY package*.json .
 COPY yarn.lock .
+COPY LICENSE .
 
-COPY config ./config
-COPY controllers ./controllers
-COPY middleware ./middleware
-COPY models ./models
-COPY routes ./routes
+COPY migrations ./migrations
+COPY src ./src
 
 RUN yarn install
 

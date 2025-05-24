@@ -1,12 +1,13 @@
 services:
   api:
-    image: andi107/node-starter-api
+    # image: andi107/node-starter-api
+    image: node-starter-src
     ports:
-      - "3000:80"
+      - "3002:80"
     env_file:
-      - ./src/.env
+      - ./root/.env
     deploy:
-      replicas: 3
+      replicas: 1
       restart_policy:
         condition: on-failure
       placement:
