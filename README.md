@@ -39,3 +39,10 @@ root/
 ├── knexfile.js                # Konfigurasi Knex
 └── package.json               # Konfigurasi proyek Node.js
 ```
+
+```bash
+yarn install
+yarn start
+yarn dev
+yarn knex
+```
