@@ -16,6 +16,7 @@ Starterkit backend modular dan scalable dengan Fastify, Knex, dan PostgreSQL. Di
 
 ## 📁 Struktur Proyek
 
+```
 root/
 ├── src/
 │   ├── app.js                 # Entry point Fastify
@@ -37,3 +38,4 @@ root/
 ├── .env                       # Konfigurasi environment
 ├── knexfile.js                # Konfigurasi Knex
 └── package.json               # Konfigurasi proyek Node.js
+```
