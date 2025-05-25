@@ -12,6 +12,9 @@ async function buildApp() {
         }
     });
 
+    app.register(require('./plugins/knex'));
+    app.register(require('./plugins/jwt'));
+
     app.register(require('@fastify/sensible'));
     app.register(require('@fastify/cors'), {
         origin: '*',
@@ -53,9 +56,6 @@ async function buildApp() {
         encodings: ['gzip', 'deflate'],
         threshold: 1024
     });
-
-    app.register(require('./plugins/knex'));
-    app.register(require('./plugins/jwt'));
 
     app.setErrorHandler((error, request, reply) => {
         request.log.error(error);

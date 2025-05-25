@@ -14,17 +14,32 @@ module.exports = {
     },
 
     login: async (request, reply) => {
-        const { email, password } = request.body;
-        const user = await userModel.findUserByEmail(request.server.knex, email);
+        const { username, password } = request.body;
+        const user = await userModel.findUserByUsername(request.server.knex, username);
+
         if (!user || !(await verifyPassword(password, user.password_hash))) {
             return reply.code(401).send({ error: 'Invalid credentials' });
         }
-        const token = request.server.jwt.sign({ id: user.id, email: user.email });
+
+        const expiresInDuration = '7d';
+        const payload = { id: user.id, username: user.username };
+
+        const token = request.server.jwt.sign(payload, {
+            expiresIn: expiresInDuration
+        });
+
+        const decodedToken = request.server.jwt.decode(token);
+        const expiresAt = decodedToken.exp;
+
         reply.send({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            token
+            statusCode: 200,
+            message: 'Login Berhasil',
+            data: {
+                id: user.id,
+                username: user.username,
+                token: token,
+                expiresAt: expiresAt
+            }
         });
     },
 

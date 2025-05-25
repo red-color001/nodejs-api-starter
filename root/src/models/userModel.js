@@ -10,4 +10,8 @@ module.exports = {
     findUserByEmail: async (knex, email) => {
         return await knex('users').where({ email }).first();
     },
+    
+    findUserByUsername: async (knex, username) => {
+        return await knex('users').where('username', username).first();
+    },
 };
